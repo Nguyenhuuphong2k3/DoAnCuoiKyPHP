@@ -6,6 +6,12 @@ require_once __DIR__ . '/../../views/layouts/header.php';
 ?>
 <main>
     <h2><?php echo htmlspecialchars($product['name']); ?></h2>
+    <?php if (isset($_SESSION['error'])): ?>
+        <p class="error"><?php echo htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></p>
+    <?php endif; ?>
+    <?php if (isset($_SESSION['success'])): ?>
+        <p class="success"><?php echo htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?></p>
+    <?php endif; ?>
     <div class="product-detail">
         <img src="/images/<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
         <div class="product-info">

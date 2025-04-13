@@ -13,8 +13,12 @@ class ProductController {
 
     public function list() {
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $perPage = 10;
+        $perPage = 8; // Sửa thành 8 sản phẩm mỗi trang
         $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : null;
+
+        if ($page < 1) {
+            $page = 1; // Đảm bảo số trang không nhỏ hơn 1
+        }
 
         if ($category_id) {
             $products = $this->productModel->getByCategory($category_id, $page, $perPage);
@@ -25,6 +29,8 @@ class ProductController {
         }
 
         $totalPages = ceil($total / $perPage);
+
+        // Đảm bảo truyền đầy đủ biến sang view
         require_once '../app/views/product/list.php';
     }
 
@@ -47,11 +53,9 @@ class ProductController {
             $stock = $_POST['stock'] ?? '';
             $image = $_FILES['image']['name'] ?? '';
 
-            // Kiểm tra dữ liệu đầu vào
             if (empty($name) || empty($category_id) || empty($description) || empty($price) || empty($stock) || empty($image)) {
                 $error = "Vui lòng điền đầy đủ thông tin.";
             } else {
-                // Kiểm tra và upload file hình ảnh
                 $uploadDir = '../public/images/';
                 if (!is_dir($uploadDir)) {
                     mkdir($uploadDir, 0777, true);

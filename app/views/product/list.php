@@ -28,6 +28,7 @@ require_once __DIR__ . '/../../views/layouts/header.php';
                     <h3><?= htmlspecialchars($product['name']) ?></h3>
                     <p>Thể loại: <?= isset($categoryMap[$product['category_id']]) ? htmlspecialchars($categoryMap[$product['category_id']]) : 'Không xác định' ?></p>
                     <p>Giá: <?= number_format($product['price'] - ($product['price'] * $product['discount'] / 100), 0, ',', '.') ?> VNĐ</p>
+                    <p>Tồn kho: <?= htmlspecialchars($product['stock']) ?></p>
                     <div class="product-buttons">
                         <a href="?controller=product&action=show&id=<?= $product['id'] ?>" class="btn btn-view">Xem chi tiết</a>
                         <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'admin'): ?>
@@ -42,9 +43,17 @@ require_once __DIR__ . '/../../views/layouts/header.php';
     <!-- Phân trang -->
     <?php if (isset($totalPages) && $totalPages > 1): ?>
         <div class="pagination">
+            <?php if ($page > 1): ?>
+                <a href="?controller=product&action=list&page=<?= $page - 1 ?><?= isset($_GET['category_id']) ? '&category_id=' . $_GET['category_id'] : '' ?>" class="prev">Trang trước</a>
+            <?php endif; ?>
+
             <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                 <a href="?controller=product&action=list&page=<?= $i ?><?= isset($_GET['category_id']) ? '&category_id=' . $_GET['category_id'] : '' ?>" class="<?= $i == $page ? 'active' : '' ?>"><?= $i ?></a>
             <?php endfor; ?>
+
+            <?php if ($page < $totalPages): ?>
+                <a href="?controller=product&action=list&page=<?= $page + 1 ?><?= isset($_GET['category_id']) ? '&category_id=' . $_GET['category_id'] : '' ?>" class="next">Trang sau</a>
+            <?php endif; ?>
         </div>
     <?php endif; ?>
 </main>

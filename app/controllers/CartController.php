@@ -26,11 +26,19 @@ class CartController {
             header('Location: ?controller=user&action=login');
             exit;
         }
+
         $user_id = $_SESSION['user']['id'];
         $product_id = $_POST['product_id'];
-        $quantity = $_POST['quantity'];
-        $this->cartModel->addToCart($user_id, $product_id, $quantity);
-        header('Location: ?controller=cart&action=index');
+        $quantity = (int)$_POST['quantity'];
+
+        try {
+            $this->cartModel->addToCart($user_id, $product_id, $quantity);
+            $_SESSION['success'] = "Thêm vào giỏ hàng thành công!";
+            header('Location: ?controller=cart&action=index');
+        } catch (Exception $e) {
+            $_SESSION['error'] = $e->getMessage();
+            header('Location: ?controller=product&action=show&id=' . $product_id);
+        }
     }
 
     public function update() {
@@ -38,10 +46,18 @@ class CartController {
             header('Location: ?controller=user&action=login');
             exit;
         }
+
         $id = $_POST['id'];
-        $quantity = $_POST['quantity'];
-        $this->cartModel->updateCart($id, $quantity);
-        header('Location: ?controller=cart&action=index');
+        $quantity = (int)$_POST['quantity'];
+
+        try {
+            $this->cartModel->updateCart($id, $quantity);
+            $_SESSION['success'] = "Cập nhật giỏ hàng thành công!";
+            header('Location: ?controller=cart&action=index');
+        } catch (Exception $e) {
+            $_SESSION['error'] = $e->getMessage();
+            header('Location: ?controller=cart&action=index');
+        }
     }
 
     public function delete() {
@@ -51,6 +67,7 @@ class CartController {
         }
         $id = $_GET['id'];
         $this->cartModel->deleteFromCart($id);
+        $_SESSION['success'] = "Xóa sản phẩm khỏi giỏ hàng thành công!";
         header('Location: ?controller=cart&action=index');
     }
 }

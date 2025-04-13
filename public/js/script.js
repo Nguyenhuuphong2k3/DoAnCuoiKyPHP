@@ -52,4 +52,68 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 1000);
         });
     }
+
+    // JavaScript cho Slider
+    const slider = document.querySelector('.slider');
+    if (slider) {
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = slides.length;
+
+        // Hàm hiển thị slide
+        function showSlide(index) {
+            if (index >= totalSlides) slideIndex = 0;
+            else if (index < 0) slideIndex = totalSlides - 1;
+            else slideIndex = index;
+
+            // Xóa class active khỏi tất cả các slide và dot
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            // Thêm class active cho slide và dot hiện tại
+            slides[slideIndex].classList.add('active');
+            dots[slideIndex].classList.add('active');
+        }
+
+        // Chuyển slide tự động mỗi 5 giây
+        function autoSlide() {
+            slideIndex++;
+            showSlide(slideIndex);
+        }
+
+        // Khởi tạo slider: Hiển thị slide đầu tiên
+        showSlide(slideIndex);
+
+        // Tự động chuyển slide
+        let autoSlideInterval = setInterval(autoSlide, 5000);
+
+        // Xử lý nút điều hướng
+        document.querySelector('.prev-slide').addEventListener('click', () => {
+            slideIndex--;
+            showSlide(slideIndex);
+            // Reset interval để tránh chuyển slide quá nhanh
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(autoSlide, 5000);
+        });
+
+        document.querySelector('.next-slide').addEventListener('click', () => {
+            slideIndex++;
+            showSlide(slideIndex);
+            // Reset interval để tránh chuyển slide quá nhanh
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(autoSlide, 5000);
+        });
+
+        // Xử lý khi click vào dot
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                slideIndex = index;
+                showSlide(slideIndex);
+                // Reset interval để tránh chuyển slide quá nhanh
+                clearInterval(autoSlideInterval);
+                autoSlideInterval = setInterval(autoSlide, 5000);
+            });
+        });
+    }
 });

@@ -1,6 +1,12 @@
 <?php require_once __DIR__ . '/../../views/layouts/header.php'; ?>
 <main>
     <h2>Giỏ hàng</h2>
+    <?php if (isset($_SESSION['error'])): ?>
+        <p class="error"><?php echo htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></p>
+    <?php endif; ?>
+    <?php if (isset($_SESSION['success'])): ?>
+        <p class="success"><?php echo htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?></p>
+    <?php endif; ?>
     <?php if (empty($cartItems)): ?>
         <p>Giỏ hàng của bạn đang trống!</p>
     <?php else: ?>
@@ -21,28 +27,34 @@
                     <?php 
                         $itemTotal = $item['price'] * $item['quantity'] * (1 - $item['discount'] / 100);
                         $total += $itemTotal;
+                        $maxStock = isset($item['stock']) ? $item['stock'] : 0; // Kiểm tra dự phòng
                     ?>
                     <tr>
-                        <td><img src="/images/<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>" width="50"></td>
-                        <td><?php echo $item['name']; ?></td>
-                        <td><?php echo number_format($item['price'] * (1 - $item['discount'] / 100)); ?> VNĐ</td>
+                        <td><img src="/images/<?php echo htmlspecialchars($item['image']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" width="50"></td>
+                        <td><?php echo htmlspecialchars($item['name']); ?></td>
+                        <td><?php echo number_format($item['price'] * (1 - $item['discount'] / 100), 0, ',', '.'); ?> VNĐ</td>
                         <td>
                             <form method="POST" action="?controller=cart&action=update">
                                 <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
-                                <input type="number" name="quantity" value="<?php echo $item['quantity']; ?>" min="1">
-                                <button type="submit">Cập nhật</button>
+                                <input type="number" name="quantity" value="<?php echo $item['quantity']; ?>" min="1" max="<?php echo $maxStock; ?>" required>
+                                <button type="submit" class="btn btn-small btn-edit">Cập nhật</button>
                             </form>
                         </td>
-                        <td><?php echo number_format($itemTotal); ?> VNĐ</td>
+                        <td><?php echo number_format($itemTotal, 0, ',', '.'); ?> VNĐ</td>
                         <td>
-                            <a href="?controller=cart&action=delete&id=<?php echo $item['id']; ?>" class="btn" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
+                            <a href="?controller=cart&action=delete&id=<?php echo $item['id']; ?>" class="btn btn-delete" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
+                <tr>
+                    <td colspan="4"><strong>Tổng cộng:</strong></td>
+                    <td><strong><?php echo number_format($total, 0, ',', '.'); ?> VNĐ</strong></td>
+                    <td>
+                        <a href="?controller=order&action=checkout" class="btn btn-view">Thanh toán</a>
+                    </td>
+                </tr>
             </tbody>
         </table>
-        <h3>Tổng cộng: <?php echo number_format($total); ?> VNĐ</h3>
-        <a href="?controller=order&action=checkout" class="btn">Thanh toán</a>
     <?php endif; ?>
 </main>
 <?php require_once __DIR__ . '/../../views/layouts/footer.php'; ?>
