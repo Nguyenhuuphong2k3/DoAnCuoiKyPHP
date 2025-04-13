@@ -21,12 +21,11 @@
                 <div class="nav-links">
                     <a href="?controller=default&action=index">Trang chủ</a>
                     <a href="?controller=product&action=list">Sản phẩm</a>
-                    <a href="?controller=category&action=list">Quản lý thể loại</a>
                     <?php if (isset($_SESSION['user'])): ?>
                         <a href="?controller=cart&action=index">Giỏ hàng</a>
                         <a href="?controller=order&action=history">Lịch sử đơn hàng</a>
                         <?php if ($_SESSION['user']['role'] == 'admin'): ?>
-                            <!-- Thêm liên kết admin nếu cần -->
+                            <a href="?controller=category&action=list">Quản lý thể loại</a>
                         <?php endif; ?>
                         <a href="?controller=user&action=logout">Đăng xuất</a>
                     <?php else: ?>
