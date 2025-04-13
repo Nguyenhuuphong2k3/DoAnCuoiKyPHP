@@ -15,8 +15,24 @@ require_once __DIR__ . '/../../views/layouts/header.php';
     <div class="product-detail">
         <img src="/images/<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
         <div class="product-info">
-            <p><strong>Giá:</strong> <?php echo number_format($product['price'] - ($product['price'] * $product['discount'] / 100), 0, ',', '.'); ?> VNĐ</p>
-            <p><strong>Khuyến mãi:</strong> <?php echo htmlspecialchars($product['discount']); ?>%</p>
+        <?php
+    $originalPrice = $product['price'];
+    $discount = $product['discount'];
+    $finalPrice = $originalPrice - ($originalPrice * $discount / 100);
+?>
+<p>
+    <strong>Giá gốc:</strong> 
+    <span class="old-price"><?= number_format($originalPrice, 0, ',', '.') ?> VNĐ</span>
+</p>
+<p>
+    <strong>Khuyến mãi:</strong> 
+    <span class="discount-percent">-<?= $discount ?>%</span>
+</p>
+<p>
+    <strong>Giá sau khuyến mãi:</strong> 
+    <span class="new-price"><?= number_format($finalPrice, 0, ',', '.') ?> VNĐ</span>
+</p>
+
             <p><strong>Mô tả:</strong> <?php echo htmlspecialchars($product['description']); ?></p>
             <p><strong>Tồn kho:</strong> <?php echo htmlspecialchars($product['stock']); ?></p>
             <?php if (isset($_SESSION['user'])): ?>

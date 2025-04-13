@@ -30,4 +30,20 @@ class UserModel {
         $stmt->bindParam(':role', $role);
         return $stmt->execute();
     }
+
+    public function findByEmail($email) {
+        $query = "SELECT * FROM users WHERE email = :email";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updatePassword($email, $hashedPassword) {
+        $query = "UPDATE users SET password = :password WHERE email = :email";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':password', $hashedPassword);
+        $stmt->bindParam(':email', $email);
+        return $stmt->execute();
+    }
 }

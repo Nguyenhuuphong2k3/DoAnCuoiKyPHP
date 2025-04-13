@@ -13,6 +13,9 @@
         <div class="header-container">
             <!-- Logo/Brand -->
             <div class="brand">
+                <a href="?controller=default&action=index">
+                    <img src="/images/logo.png" alt="Phone Store Logo" class="logo-img">
+                </a>
                 <a href="?controller=default&action=index" class="brand-logo">Phone Store</a>
             </div>
 
@@ -35,6 +38,14 @@
                     <?php endif; ?>
                 </div>
             </nav>
+
+            <!-- Hiển thị lời chào nếu đã đăng nhập -->
+            <?php if (isset($_SESSION['user'])): ?>
+                <div class="user-greeting">
+                    <i class="fas fa-user"></i>
+                    Chào, <?php echo htmlspecialchars($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?>
+                </div>
+            <?php endif; ?>
 
             <!-- Thanh tìm kiếm -->
             <form action="?controller=product&action=search" method="GET" class="search-form">

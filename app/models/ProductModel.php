@@ -16,7 +16,18 @@ class ProductModel {
         $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
         $stmt->bindParam(':perPage', $perPage, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Tính giá sau khuyến mãi cho từng sản phẩm
+        foreach ($products as &$product) {
+            $price = $product['price'];
+            $discount = $product['discount'];
+            $discountAmount = ($price * $discount) / 100;
+            $finalPrice = $price - $discountAmount;
+            $product['final_price'] = $finalPrice; // Lưu giá đã tính khuyến mãi
+        }
+
+        return $products;
     }
 
     public function getTotal() {
@@ -33,7 +44,18 @@ class ProductModel {
             $stmt->bindParam(':category_id', $categoryId, PDO::PARAM_INT);
             $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
             $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Tính giá sau khuyến mãi cho từng sản phẩm
+            foreach ($products as &$product) {
+                $price = $product['price'];
+                $discount = $product['discount'];
+                $discountAmount = ($price * $discount) / 100;
+                $finalPrice = $price - $discountAmount;
+                $product['final_price'] = $finalPrice; // Lưu giá đã tính khuyến mãi
+            }
+
+            return $products;
         } catch (PDOException $e) {
             error_log("Lỗi khi lấy sản phẩm theo thể loại: " . $e->getMessage());
             return false;
@@ -48,7 +70,18 @@ class ProductModel {
         $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
         $stmt->bindParam(':perPage', $perPage, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Tính giá sau khuyến mãi cho từng sản phẩm
+        foreach ($products as &$product) {
+            $price = $product['price'];
+            $discount = $product['discount'];
+            $discountAmount = ($price * $discount) / 100;
+            $finalPrice = $price - $discountAmount;
+            $product['final_price'] = $finalPrice; // Lưu giá đã tính khuyến mãi
+        }
+
+        return $products;
     }
 
     public function getTotalByCategory($category_id) {
@@ -107,7 +140,18 @@ class ProductModel {
         $keyword = "%$keyword%";
         $stmt->bindParam(':keyword', $keyword);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Tính giá sau khuyến mãi cho từng sản phẩm
+        foreach ($products as &$product) {
+            $price = $product['price'];
+            $discount = $product['discount'];
+            $discountAmount = ($price * $discount) / 100;
+            $finalPrice = $price - $discountAmount;
+            $product['final_price'] = $finalPrice; // Lưu giá đã tính khuyến mãi
+        }
+
+        return $products;
     }
 
     public function updateStock($product_id, $quantity) {

@@ -28,6 +28,15 @@ class ProductController {
             $total = $this->productModel->getTotal();
         }
 
+        // Tính toán giá sau khuyến mãi cho từng sản phẩm
+        foreach ($products as &$product) {
+            $price = $product['price'];
+            $discount = $product['discount'];
+            $discountAmount = ($price * $discount) / 100;
+            $finalPrice = $price - $discountAmount;
+            $product['final_price'] = $finalPrice; // Lưu giá đã tính khuyến mãi
+        }
+
         $totalPages = ceil($total / $perPage);
 
         // Đảm bảo truyền đầy đủ biến sang view
@@ -130,6 +139,16 @@ class ProductController {
     public function search() {
         $keyword = $_GET['keyword'];
         $products = $this->productModel->search($keyword);
+
+        // Tính toán giá sau khuyến mãi cho từng sản phẩm
+        foreach ($products as &$product) {
+            $price = $product['price'];
+            $discount = $product['discount'];
+            $discountAmount = ($price * $discount) / 100;
+            $finalPrice = $price - $discountAmount;
+            $product['final_price'] = $finalPrice; // Lưu giá đã tính khuyến mãi
+        }
+
         require_once '../app/views/product/list.php';
     }
 }

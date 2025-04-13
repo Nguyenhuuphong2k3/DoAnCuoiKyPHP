@@ -27,7 +27,21 @@ require_once __DIR__ . '/../../views/layouts/header.php';
                     <img src="/images/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
                     <h3><?= htmlspecialchars($product['name']) ?></h3>
                     <p>Thể loại: <?= isset($categoryMap[$product['category_id']]) ? htmlspecialchars($categoryMap[$product['category_id']]) : 'Không xác định' ?></p>
-                    <p>Giá: <?= number_format($product['price'] - ($product['price'] * $product['discount'] / 100), 0, ',', '.') ?> VNĐ</p>
+                    <?php
+    $originalPrice = $product['price'];
+    $discount = $product['discount'];
+    $finalPrice = $originalPrice - ($originalPrice * $discount / 100);
+?>
+<p class="product-price">
+    <?php if ($discount > 0): ?>
+        <span class="old-price"><?= number_format($originalPrice, 0, ',', '.') ?> VNĐ</span>
+        <span class="discount-percent">-<?= $discount ?>%</span><br>
+        <strong class="new-price"><?= number_format($finalPrice, 0, ',', '.') ?> VNĐ</strong>
+    <?php else: ?>
+        <strong class="new-price"><?= number_format($originalPrice, 0, ',', '.') ?> VNĐ</strong>
+    <?php endif; ?>
+</p>
+
                     <p>Tồn kho: <?= htmlspecialchars($product['stock']) ?></p>
                     <div class="product-buttons">
                         <a href="?controller=product&action=show&id=<?= $product['id'] ?>" class="btn btn-view">Xem chi tiết</a>

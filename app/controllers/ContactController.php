@@ -107,7 +107,7 @@ class ContactController {
 
                 // Thiết lập người gửi và người nhận
                 $mail->setFrom($email, $name);
-                $mail->addAddress('Nguyenhuuphong2k3@gmail.com', 'Nguyen Huu Ky Phong');
+                $mail->addAddress('Nguyenhuuphong2k3@gmail.com', 'Phone Store');
 
                 // Thiết lập nội dung email
                 $mail->isHTML(true);
