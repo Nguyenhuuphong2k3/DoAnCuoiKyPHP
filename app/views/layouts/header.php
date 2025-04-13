@@ -21,6 +21,7 @@
                 <div class="nav-links">
                     <a href="?controller=default&action=index">Trang chủ</a>
                     <a href="?controller=product&action=list">Sản phẩm</a>
+                    <a href="?controller=contact&action=index">Gửi ý kiến</a>
                     <?php if (isset($_SESSION['user'])): ?>
                         <a href="?controller=cart&action=index">Giỏ hàng</a>
                         <a href="?controller=order&action=history">Lịch sử đơn hàng</a>

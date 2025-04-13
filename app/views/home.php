@@ -27,7 +27,7 @@ require_once 'layouts/header.php';
                 </div>
                 <!-- Slide 3 -->
                 <div class="slide">
-                    <img src="/images/banner3.jpg" alt="Banner 3">
+                    <img src="/images/banner3.jpeg" alt="Banner 3">
                     <div class="slide-content">
                         <h2>Xiaomi 14 ra mắt!</h2>
                         <p>Hiệu năng vượt trội, giá cực sốc!</p>
@@ -73,7 +73,7 @@ require_once 'layouts/header.php';
                         <div class="product-list">
                             <?php foreach ($products as $product): ?>
                                 <div class="product-item">
-                                    <img src="/images/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" onerror="this.src='https://via.placeholder.com/250x150?text=No+Image'">
+                                    <img src="/images/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" onerror="">
                                     <h4><?= htmlspecialchars($product['name']) ?></h4>
                                     <p>Giá: <?= number_format($product['price'] - ($product['price'] * $product['discount'] / 100), 0, ',', '.') ?> VNĐ</p>
                                     <div class="product-buttons">
@@ -102,15 +102,15 @@ require_once 'layouts/header.php';
         <div class="contact-info">
             <div class="contact-item">
                 <i class="fas fa-map-marker-alt"></i>
-                <p><strong>Địa chỉ:</strong> 123 Đường Công Nghệ, Quận 1, TP. Hồ Chí Minh</p>
+                <p><strong>Địa chỉ:</strong> Linh Trung, Thủ Đức, TP. Hồ Chí Minh</p>
             </div>
             <div class="contact-item">
                 <i class="fas fa-phone"></i>
-                <p><strong>Hotline:</strong> 0909 123 456</p>
+                <p><strong>Hotline:</strong> 0966 595 038</p>
             </div>
             <div class="contact-item">
                 <i class="fas fa-envelope"></i>
-                <p><strong>Email:</strong> support@phonestore.com</p>
+                <p><strong>Email:</strong> Nguyenhuuphong2k3@gmail.com</p>
             </div>
         </div>
     </section>
